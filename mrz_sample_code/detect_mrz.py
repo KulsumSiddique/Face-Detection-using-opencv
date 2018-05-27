@@ -3,18 +3,17 @@
 
 # import the necessary packages
 from imutils import paths
-# from passporteye import read_mrz 
-# from pytesseract import image_to_string
 import numpy as np
 import argparse
 import imutils
 import cv2
+import os
 
 # construct the argument parse and parse the arguments
 ap = argparse.ArgumentParser()
 ap.add_argument("-i", "--images", required=True, help="path to images directory")
 args = vars(ap.parse_args())
-
+path = 'F:/DJBL/face_detection/mrz/examples/mrz_snap'
 # initialize a rectangular and square structuring kernel
 rectKernel = cv2.getStructuringElement(cv2.MORPH_RECT, (13, 5))
 sqKernel = cv2.getStructuringElement(cv2.MORPH_RECT, (21, 21))
@@ -86,10 +85,12 @@ for imagePath in paths.list_images(args["images"]):
 			roi = image[y:y + h, x:x + w].copy()
 			cv2.rectangle(image, (x, y), (x + w, y + h), (0, 255, 0), 2)
 			break
- 
- 	# print image_to_string(roi)
+
 	# show the output images
 	cv2.imshow("Image", image)
 	cv2.imshow("ROI", roi)
-
-	cv2.waitKey(0)
+	
+cv2.imwrite(os.path.join(path, 'ROI'), roi)
+	# cv2.imwrite("examples/mrz_snap/MRZ"+".jpg")
+	# cv2.imwrite(os.path.join(path , 'waka.jpg'), img)
+cv2.waitKey(0)
